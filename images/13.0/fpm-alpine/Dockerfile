@@ -1,0 +1,22 @@
+FROM nextcloud:13.0-fpm-alpine
+
+LABEL maintainer="mathieu.brunot at monogramm dot io"
+
+RUN set -ex; \
+	# install the packages we need
+	apk add --no-cache --virtual .build-deps \
+		imagemagick-dev \
+		nodejs \
+		unzip \
+	; \
+	# Install imagick
+    pecl install imagick; \
+    docker-php-ext-enable imagick; \
+    \
+	# Install pageres-cli globally
+	npm install --global pageres-cli --unsafe-perm; \
+	mkdir -p /var/www/.config; \
+	chown -R "www-data:$(id -gn www-data)" /var/www/.config; \
+    \
+	apk del .build-deps
+

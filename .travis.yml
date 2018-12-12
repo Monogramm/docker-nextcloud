@@ -1,0 +1,40 @@
+dist: trusty
+sudo: required
+
+services: docker
+
+language: bash
+
+branches:
+  only:
+    - master
+
+before_script:
+  - env | sort
+  - name="nextcloud"
+  - image="monogramm/docker-nextcloud:${VERSION}${PHP_VERSION:+-$PHP_VERSION}${VARIANT:+-$VARIANT}"
+  #- dir="images/${VERSION}/php${PHP_VERSION}-${VARIANT}"
+  - dir="images/${VERSION}/${VARIANT}"
+
+script:
+  - travis_retry docker build -t "$image" "$dir"
+
+after_script:
+  - docker images
+  - docker run --name "$name" -d "$image" "$dir"
+  - docker ps
+  - docker logs "$name"
+
+notifications:
+  email: false
+
+env: # Environments
+    - VERSION=13.0 PHP_VERSION=7.2 VARIANT=fpm-alpine
+    - VERSION=13.0 PHP_VERSION=7.2 VARIANT=fpm
+    - VERSION=13.0 PHP_VERSION=7.2 VARIANT=apache
+    - VERSION=14.0 PHP_VERSION=7.2 VARIANT=fpm-alpine
+    - VERSION=14.0 PHP_VERSION=7.2 VARIANT=fpm
+    - VERSION=14.0 PHP_VERSION=7.2 VARIANT=apache
+    - VERSION=15.0 PHP_VERSION=7.2 VARIANT=fpm-alpine
+    - VERSION=15.0 PHP_VERSION=7.2 VARIANT=fpm
+    - VERSION=15.0 PHP_VERSION=7.2 VARIANT=apache
