@@ -5,8 +5,13 @@ LABEL maintainer="mathieu.brunot at monogramm dot io"
 RUN set -ex; \
 	# install the packages we need
 	apk add --no-cache --virtual .build-deps \
+		autoconf \
+		gcc \
+		g++ \
 		imagemagick-dev \
+		make \
 		nodejs \
+		nodejs-npm \
 		unzip \
 	; \
 	# Install imagick

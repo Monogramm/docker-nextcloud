@@ -9,6 +9,7 @@ RUN set -ex; \
 		libmagickcore-dev \
 		libmagickwand-dev \
 		nodejs \
+		npm \
 		unzip \
 	; \
 	rm -rf /var/lib/apt/lists/*; \
