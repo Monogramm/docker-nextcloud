@@ -5,7 +5,7 @@ LABEL maintainer="mathieu.brunot at monogramm dot io"
 RUN set -ex; \
 	apt-get update -q; \
 	# install the packages we need
-	curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -; \
+	curl -sL https://deb.nodesource.com/setup_10.x | bash -; \
 	apt-get install -y --no-install-recommends \
 		libmagickcore-dev \
 		libmagickwand-dev \
