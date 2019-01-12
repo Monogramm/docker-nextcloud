@@ -17,9 +17,7 @@ RUN set -ex; \
 		nodejs \
 	; \
 	rm -rf /var/lib/apt/lists/*; \
-	# Install imagick
-    pecl install imagick; \
-    docker-php-ext-enable imagick; \
+    \
 	# Install pageres-cli globally
 	npm install --global pageres-cli --unsafe-perm; \
 	mkdir -p /var/www/.config; \

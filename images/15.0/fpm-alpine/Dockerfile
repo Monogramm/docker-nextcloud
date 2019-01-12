@@ -14,9 +14,6 @@ RUN set -ex; \
 		nodejs-npm \
 		unzip \
 	; \
-	# Install imagick
-    pecl install imagick; \
-    docker-php-ext-enable imagick; \
     \
 	# Install pageres-cli globally
 	npm install --global pageres-cli --unsafe-perm; \
