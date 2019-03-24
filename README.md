@@ -13,7 +13,7 @@
 
 Custom Docker image for NextCloud.
 
-Provides a NextCloud with additional plugins for Apps like NextCloud Passwords.
+Provides a NextCloud with additional packages for Apps like NextCloud Passwords.
 
 > [NextCloud Passwords](https://github.com/marius-wieschollek/passwords)
 
