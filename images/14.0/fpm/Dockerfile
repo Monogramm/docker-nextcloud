@@ -1,6 +1,6 @@
 FROM nextcloud:14.0-fpm
 
-LABEL maintainer="mathieu.brunot at monogramm dot io"
+LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>"
 
 RUN set -ex; \
 	apt-get update -q; \

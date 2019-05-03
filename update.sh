@@ -29,7 +29,6 @@ fullversions=( $( curl -fsSL 'https://download.nextcloud.com/server/releases/' |
 	grep -oE '[[:digit:]]+(\.[[:digit:]]+){2}' | \
 	sort -urV ) )
 latests=( $( printf '%s\n' "${fullversions[@]}" | cut -d. -f1-2 | sort -urV ) )
-#latests=( "13" "14" "15" )
 
 # Remove existing images
 echo "reset docker images"
