@@ -1,6 +1,6 @@
 FROM nextcloud:13.0-fpm-alpine
 
-LABEL maintainer="mathieu.brunot at monogramm dot io"
+LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>"
 
 RUN set -ex; \
 	# install the packages we need
