@@ -1,6 +1,18 @@
 #!/bin/bash
 set -eo pipefail
 
+declare -A cmd=(
+	[apache]='apache2-foreground'
+	[fpm]='php-fpm'
+	[fpm-alpine]='php-fpm'
+)
+
+declare -A program=(
+	[apache]='apache2'
+	[fpm]='php-fpm'
+	[fpm-alpine]='php-fpm'
+)
+
 declare -A base=(
 	[apache]='debian'
 	[fpm]='debian'
@@ -56,14 +68,21 @@ for latest in "${latests[@]}"; do
 				dir="images/$version/$variant"
 				mkdir -p "$dir"
 
+				# Replace the docker variables.
 				template="Dockerfile-${base[$variant]}.template"
 				cp "$template" "$dir/Dockerfile"
-
-				# Replace the variables.
 				sed -ri -e '
 					s/%%VERSION%%/'"$version"'/g;
 					s/%%VARIANT%%/'"$variant"'/g;
 				' "$dir/Dockerfile"
+
+				# Replace the supervisor variables.
+				template="supervisord.conf"
+				cp "$template" "$dir/supervisord.conf"
+				sed -ri -e '
+					s/%%CMD%%/'"${cmd[$variant]}"'/g;
+					s/%%PROGRAM%%/'"${program[$variant]}"'/g;
+				' "$dir/supervisord.conf"
 
 				travisEnv='\n    - VERSION='"$version"' PHP_VERSION='"$php_version"' VARIANT='"$variant$travisEnv"
 
