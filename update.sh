@@ -1,6 +1,24 @@
 #!/bin/bash
 set -eo pipefail
 
+declare -A cmd=(
+	[apache]='apache2-foreground'
+	[fpm]='php-fpm'
+	[fpm-alpine]='php-fpm'
+)
+
+declare -A program=(
+	[apache]='apache2'
+	[fpm]='php-fpm'
+	[fpm-alpine]='php-fpm'
+)
+
+declare -A compose=(
+	[apache]='apache'
+	[fpm]='fpm'
+	[fpm-alpine]='fpm'
+)
+
 declare -A base=(
 	[apache]='debian'
 	[fpm]='debian'
@@ -56,14 +74,16 @@ for latest in "${latests[@]}"; do
 				dir="images/$version/$variant"
 				mkdir -p "$dir"
 
+				# Replace the docker variables.
 				template="Dockerfile-${base[$variant]}.template"
 				cp "$template" "$dir/Dockerfile"
-
-				# Replace the variables.
 				sed -ri -e '
 					s/%%VERSION%%/'"$version"'/g;
 					s/%%VARIANT%%/'"$variant"'/g;
 				' "$dir/Dockerfile"
+
+				cp ".dockerignore" "$dir/.dockerignore"
+				cp "docker-compose_${compose[$variant]}.yml" "$dir/docker-compose.yml"
 
 				travisEnv='\n    - VERSION='"$version"' PHP_VERSION='"$php_version"' VARIANT='"$variant$travisEnv"
 

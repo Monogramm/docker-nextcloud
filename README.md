@@ -13,7 +13,11 @@
 
 Custom Docker image for NextCloud.
 
-Provides a NextCloud with additional packages for Apps like NextCloud Passwords.
+Provides a NextCloud with additional packages for samba, cron background tasks or Apps like NextCloud Passwords.
+
+> [NextCloud cron Background jobs](https://docs.nextcloud.com/server/16/admin_manual/configuration_server/background_jobs_configuration.html#cron)
+
+> [NextCloud Docker examples](https://github.com/nextcloud/docker/tree/master/.examples)
 
 > [NextCloud Passwords](https://github.com/marius-wieschollek/passwords)
 
@@ -49,6 +53,7 @@ https://hub.docker.com/r/monogramm/docker-nextcloud/
 See NextCloud base image documentation for details.
 
 > [Nextcloud GitHub](https://github.com/nextcloud/docker)
+
 > [Nextcloud DockerHub](https://hub.docker.com/r/library/nextcloud/)
 
 # Questions / Issues

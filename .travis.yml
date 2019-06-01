@@ -11,20 +11,18 @@ branches:
 
 before_script:
   - env | sort
-  - name="nextcloud"
-  #- image="monogramm/docker-nextcloud:${VERSION}${PHP_VERSION:+-$PHP_VERSION}${VARIANT:+-$VARIANT}"
-  - image="monogramm/docker-nextcloud:${VERSION}${VARIANT:+-$VARIANT}"
-  #- dir="images/${VERSION}/php${PHP_VERSION}-${VARIANT}"
   - dir="images/${VERSION}/${VARIANT}"
 
 script:
-  - travis_wait docker build -t "$image" "$dir"
-
-after_script:
+  - cd "$dir"
+  - docker-compose build
   - docker images
-  - docker run --name "$name" -d "$image"
-  - docker ps
-  - docker logs "$name"
+  - travis_retry docker-compose up -d && sleep 60
+  - docker-compose ps
+  - docker-compose logs
+  - docker-compose ps "nextclouddb" | grep "Up"
+  - docker-compose ps "nextcloud" | grep "Up"
+  - docker-compose ps "nextcloudcron" | grep "Up"
 
 notifications:
   email: false
