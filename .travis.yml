@@ -20,8 +20,8 @@ script:
   - travis_retry docker-compose up -d && sleep 60
   - docker-compose ps
   - docker-compose logs
-  - docker-compose ps "dolibarrdb" | grep "Up"
-  - docker-compose ps "dolibarr" | grep "Up"
+  - docker-compose ps "nextclouddb" | grep "Up"
+  - docker-compose ps "nextcloud" | grep "Up"
 
 notifications:
   email: false
