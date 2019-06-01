@@ -4,6 +4,9 @@ LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>"
 
 # Install supervisor, samba client, node and pageres-cli
 RUN set -ex; \
+    \
+    savedAptMark="$(apt-mark showmanual)"; \
+    \
 	apt-get update -q; \
 	apt-get install -y --no-install-recommends \
 		gnupg2 \
