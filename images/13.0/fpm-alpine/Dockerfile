@@ -14,7 +14,7 @@ RUN set -ex; \
 		gcc \
 		g++ \
 		imagemagick-dev \
-        libsmbclient-dev \
+        samba-dev \
 		make \
 		nodejs \
 		nodejs-npm \
@@ -34,6 +34,13 @@ RUN set -ex; \
 	mkdir -p /var/www/.config; \
 	chown -R "www-data:$(id -gn www-data)" /var/www/.config; \
     \
+    runDeps="$( \
+        scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
+            | tr ',' '\n' \
+            | sort -u \
+            | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+    )"; \
+    apk add --virtual .nextcloud-phpext-rundeps $runDeps; \
 	apk del .build-deps
 
 COPY supervisord.conf /etc/supervisor/supervisord.conf
