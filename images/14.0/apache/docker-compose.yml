@@ -7,6 +7,7 @@ services:
     #restart: always
     depends_on:
       - nextclouddb
+      - nextcloudredis
     links:
       - nextclouddb
     ports:
@@ -14,6 +15,7 @@ services:
     volumes:
       - /srv/nextcloud/html:/var/www/html
     environment:
+      - REDIS_HOST=redis
       - MYSQL_HOST=nextclouddb # same as mysql container name
       - MYSQL_DB=nextcloud # same as mysql MYSQL_DATABASE env name
       - MYSQL_USER=nextcloud # same as mysql MYSQL_USER env name
@@ -33,3 +35,19 @@ services:
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
       - MYSQL_PASSWORD=nextclouddbpass
+
+  nextcloudredis:
+    image: redis:alpine
+    container_name: nextcloudredis
+    restart: always
+
+  nextcloudcron:
+    build: ./
+    container_name: nextcloudcron
+    #restart: always
+    volumes:
+      - /srv/nextcloud/html:/var/www/html
+    entrypoint: /cron.sh
+    depends_on:
+      - nextclouddb
+      - nextcloudredis

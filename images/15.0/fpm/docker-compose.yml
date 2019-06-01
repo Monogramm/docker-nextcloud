@@ -14,6 +14,7 @@ services:
     volumes:
       - /srv/nextcloud/html:/var/www/html
     environment:
+      - REDIS_HOST=redis
       - POSTGRES_HOST=nextclouddb # same as pgsql container name
       # https://github.com/nextcloud/docker/issues/456
       - POSTGRES_DB=nextcloud
@@ -59,3 +60,19 @@ services:
     environment:
       - NGINX_HOST=localhost # set your local domain or your live domain
       # - NGINX_CGI=nextcloud:9000 # same as nextcloud container name
+
+  nextcloudredis:
+    image: redis:alpine
+    container_name: nextcloudredis
+    restart: always
+
+  nextcloudcron:
+    build: ./
+    container_name: nextcloudcron
+    #restart: always
+    volumes:
+      - /srv/nextcloud/html:/var/www/html
+    entrypoint: /cron.sh
+    depends_on:
+      - nextclouddb
+      - nextcloudredis

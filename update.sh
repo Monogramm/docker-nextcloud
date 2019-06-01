@@ -82,14 +82,6 @@ for latest in "${latests[@]}"; do
 					s/%%VARIANT%%/'"$variant"'/g;
 				' "$dir/Dockerfile"
 
-				# Replace the supervisor variables.
-				template="supervisord.conf"
-				cp "$template" "$dir/supervisord.conf"
-				sed -ri -e '
-					s/%%CMD%%/'"${cmd[$variant]}"'/g;
-					s/%%PROGRAM%%/'"${program[$variant]}"'/g;
-				' "$dir/supervisord.conf"
-
 				cp ".dockerignore" "$dir/.dockerignore"
 				cp "docker-compose_${compose[$variant]}.yml" "$dir/docker-compose.yml"
 

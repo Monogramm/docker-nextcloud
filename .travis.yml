@@ -22,6 +22,7 @@ script:
   - docker-compose logs
   - docker-compose ps "nextclouddb" | grep "Up"
   - docker-compose ps "nextcloud" | grep "Up"
+  - docker-compose ps "nextcloudcron" | grep "Up"
 
 notifications:
   email: false

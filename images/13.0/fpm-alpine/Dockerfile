@@ -2,12 +2,11 @@ FROM nextcloud:13.0-fpm-alpine
 
 LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>"
 
-# Install supervisor, samba client, node and pageres-cli
+# Install samba client, node and pageres-cli
 RUN set -ex; \
     apk add --no-cache \
         imagemagick \
         samba-client \
-        supervisor \
     ; \
 	apk add --no-cache --virtual .build-deps \
 		autoconf \
@@ -25,11 +24,6 @@ RUN set -ex; \
 	mkdir -p /shared; \
 	chown -R "www-data:$(id -gn www-data)" /shared; \
     \
-	mkdir -p \
-		/var/log/supervisord \
-		/var/run/supervisord \
-	; \
-    \
 	npm install --global pageres-cli --unsafe-perm; \
 	mkdir -p /var/www/.config; \
 	chown -R "www-data:$(id -gn www-data)" /var/www/.config; \
@@ -42,9 +36,3 @@ RUN set -ex; \
     )"; \
     apk add --virtual .nextcloud-phpext-rundeps $runDeps; \
 	apk del .build-deps
-
-COPY supervisord.conf /etc/supervisor/supervisord.conf
-
-ENV NEXTCLOUD_UPDATE=1
-
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
