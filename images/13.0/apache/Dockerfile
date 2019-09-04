@@ -38,7 +38,7 @@ RUN set -ex; \
 	apt-get install -y --no-install-recommends \
 		nodejs \
 	; \
-	npm install --global pageres-cli --unsafe-perm; \
+	npm install --global pageres-cli@4.1.0 --unsafe-perm; \
 	mkdir -p /var/www/.config; \
 	chown -R "www-data:$(id -gn www-data)" /var/www/.config; \
     \
