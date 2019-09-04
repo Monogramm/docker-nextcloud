@@ -3,6 +3,7 @@ FROM nextcloud:13.0-fpm
 LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>"
 
 # Install samba client, node and pageres-cli
+# reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
 RUN set -ex; \
     \
     savedAptMark="$(apt-mark showmanual)"; \
@@ -16,7 +17,18 @@ RUN set -ex; \
 		libsmbclient-dev \
 		smbclient \
 		unzip \
+        xfonts-base \
+        xfonts-75dpi \
+        wfrench \
+        wngerman \
+        wbritish \
+        wspanish \
+        witalian \
+        wamerican \
+        wportuguese \
 	; \
+    pecl uninstall imagick; \
+    pecl install imagick; \
     pecl install smbclient; \
     docker-php-ext-enable smbclient; \
 	mkdir -p /shared; \
@@ -30,7 +42,6 @@ RUN set -ex; \
 	mkdir -p /var/www/.config; \
 	chown -R "www-data:$(id -gn www-data)" /var/www/.config; \
     \
-# reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
     apt-mark auto '.*' > /dev/null; \
     apt-mark manual $savedAptMark; \
     ldd "$(php -r 'echo ini_get("extension_dir");')"/*.so \

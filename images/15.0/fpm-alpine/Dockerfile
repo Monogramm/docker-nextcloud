@@ -7,6 +7,9 @@ RUN set -ex; \
     apk add --no-cache \
         imagemagick \
         samba-client \
+		nodejs \
+		nodejs-npm \
+		unzip \
     ; \
 	apk add --no-cache --virtual .build-deps \
 		autoconf \
@@ -15,10 +18,9 @@ RUN set -ex; \
 		imagemagick-dev \
         samba-dev \
 		make \
-		nodejs \
-		nodejs-npm \
-		unzip \
 	; \
+    pecl uninstall imagick; \
+    pecl install imagick; \
     pecl install smbclient; \
     docker-php-ext-enable smbclient; \
 	mkdir -p /shared; \
