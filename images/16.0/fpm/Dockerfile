@@ -8,7 +8,7 @@ RUN set -ex; \
     \
     savedAptMark="$(apt-mark showmanual)"; \
     \
-	apt-get update -q; \
+	apt-get update -q -y; \
 	apt-get install -y --no-install-recommends \
 		gnupg2 \
 		libmagickcore-dev \
@@ -17,8 +17,6 @@ RUN set -ex; \
 		libsmbclient-dev \
 		smbclient \
 		unzip \
-        xfonts-base \
-        xfonts-75dpi \
         wfrench \
         wngerman \
         wbritish \
@@ -26,7 +24,10 @@ RUN set -ex; \
         witalian \
         wamerican \
         wportuguese \
+        xfonts-base \
+        xfonts-75dpi \
 	; \
+    select-default-wordlist --set-default=english; \
     pecl uninstall imagick; \
     pecl install imagick; \
     pecl install smbclient; \
@@ -53,5 +54,5 @@ RUN set -ex; \
         | xargs -rt apt-mark manual; \
     \
     apt-get clean; \
-    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false gnupg; \
+    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	rm -rf /var/lib/apt/lists/*
