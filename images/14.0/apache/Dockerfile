@@ -52,5 +52,6 @@ RUN set -ex; \
         | sort -u \
         | xargs -rt apt-mark manual; \
     \
-    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+    apt-get clean; \
+    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false gnupg; \
 	rm -rf /var/lib/apt/lists/*
