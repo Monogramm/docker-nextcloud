@@ -17,17 +17,9 @@ RUN set -ex; \
 		libsmbclient-dev \
 		smbclient \
 		unzip \
-        wfrench \
-        wngerman \
-        wbritish \
-        wspanish \
-        witalian \
-        wamerican \
-        wportuguese \
         xfonts-base \
         xfonts-75dpi \
 	; \
-    select-default-wordlist --set-default=british; \
     pecl uninstall imagick; \
     pecl install imagick; \
     pecl install smbclient; \
