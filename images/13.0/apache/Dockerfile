@@ -3,11 +3,12 @@ FROM nextcloud:13.0-apache
 LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>"
 
 # Install samba client, node and pageres-cli
+# reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
 RUN set -ex; \
     \
     savedAptMark="$(apt-mark showmanual)"; \
     \
-	apt-get update -q; \
+	apt-get update -q -y; \
 	apt-get install -y --no-install-recommends \
 		gnupg2 \
 		libmagickcore-dev \
@@ -16,7 +17,11 @@ RUN set -ex; \
 		libsmbclient-dev \
 		smbclient \
 		unzip \
+        xfonts-base \
+        xfonts-75dpi \
 	; \
+    pecl uninstall imagick; \
+    pecl install imagick; \
     pecl install smbclient; \
     docker-php-ext-enable smbclient; \
 	mkdir -p /shared; \
@@ -26,11 +31,10 @@ RUN set -ex; \
 	apt-get install -y --no-install-recommends \
 		nodejs \
 	; \
-	npm install --global pageres-cli --unsafe-perm; \
+	npm install --global pageres-cli@4.1.0 --unsafe-perm; \
 	mkdir -p /var/www/.config; \
 	chown -R "www-data:$(id -gn www-data)" /var/www/.config; \
     \
-# reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
     apt-mark auto '.*' > /dev/null; \
     apt-mark manual $savedAptMark; \
     ldd "$(php -r 'echo ini_get("extension_dir");')"/*.so \
@@ -41,5 +45,6 @@ RUN set -ex; \
         | sort -u \
         | xargs -rt apt-mark manual; \
     \
+    apt-get clean; \
     apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	rm -rf /var/lib/apt/lists/*
