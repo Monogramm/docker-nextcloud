@@ -1,0 +1,53 @@
+version: "2"
+
+services:
+  nextcloud:
+    build: ./
+    container_name: nextcloud
+    #restart: always
+    depends_on:
+      - nextclouddb
+      - nextcloudredis
+    links:
+      - nextclouddb
+    ports:
+      - 80:80
+    volumes:
+      - /srv/nextcloud/html:/var/www/html
+    environment:
+      - REDIS_HOST=redis
+      - MYSQL_HOST=nextclouddb # same as mysql container name
+      - MYSQL_DB=nextcloud # same as mysql MYSQL_DATABASE env name
+      - MYSQL_USER=nextcloud # same as mysql MYSQL_USER env name
+      - MYSQL_PASSWORD=nextclouddbpass # same as mysql MYSQL_PASSWORD env name
+
+  nextclouddb:
+    image: mariadb:latest
+    container_name: nextclouddb
+    restart: always
+    command: --character_set_client=utf8 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --character-set-client-handshake=FALSE
+    ports:
+      - 3306:3306
+    volumes:
+      - /srv/nextcloud/db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysqlrootpassword
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=nextclouddbpass
+
+  nextcloudredis:
+    image: redis:alpine
+    container_name: nextcloudredis
+    restart: always
+
+  nextcloudcron:
+    build: ./
+    container_name: nextcloudcron
+    #restart: always
+    volumes:
+      - /srv/nextcloud/html:/var/www/html
+    entrypoint: /cron.sh
+    depends_on:
+      - nextclouddb
+      - nextcloudredis
