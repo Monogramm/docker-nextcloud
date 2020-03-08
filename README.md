@@ -31,18 +31,22 @@ A safe home for all your data. Access & share your files, calendars, contacts, m
     -   `18.0-apache`, `18-apache`, `apache`, `18.0`, `latest` (_18.0/apache/Dockerfile_)
     -   `18.0-fpm-alpine`, `fpm-alpine` (_18.0/fpm-alpine/Dockerfile_)
     -   `18.0-fpm`, `fpm` (_18.0/fpm/Dockerfile_)
+
 -   NextCloud 17.0
     -   `17.0-apache`, `17-apache`, `17.0` (_17.0/apache/Dockerfile_)
     -   `17.0-fpm-alpine` (_17.0/fpm-alpine/Dockerfile_)
     -   `17.0-fpm` (_17.0/fpm/Dockerfile_)
+
 -   NextCloud 16.0
     -   `16.0-apache`, `16-apache`, `16.0` (_16.0/apache/Dockerfile_)
     -   `16.0-fpm-alpine` (_16.0/fpm-alpine/Dockerfile_)
     -   `16.0-fpm` (_16.0/fpm/Dockerfile_)
+
 -   NextCloud 15.0
     -   `15.0-apache`, `15-apache` (_15.0/apache/Dockerfile_)
     -   `15.0-fpm-alpine` (_15.0/fpm-alpine/Dockerfile_)
     -   `15.0-fpm` (_15.0/fpm/Dockerfile_)
+
 -   NextCloud 14.0
     -   `14.0-apache`, `14-apache`, `14.0` (_14.0/apache/Dockerfile_)
     -   `14.0-fpm-alpine` (_14.0/fpm-alpine/Dockerfile_)
@@ -59,7 +63,6 @@ See NextCloud base image documentation for details.
 # Questions / Issues
 
 If you got any questions or problems using the image, please visit our [Github Repository](https://github.com/Monogramm/docker-nextcloud) and write an issue.  
-
 
 [uri_license]: http://www.gnu.org/licenses/agpl.html
 
