@@ -1,18 +1,6 @@
 #!/bin/bash
 set -eo pipefail
 
-declare -A cmd=(
-	[apache]='apache2-foreground'
-	[fpm]='php-fpm'
-	[fpm-alpine]='php-fpm'
-)
-
-declare -A program=(
-	[apache]='apache2'
-	[fpm]='php-fpm'
-	[fpm-alpine]='php-fpm'
-)
-
 declare -A compose=(
 	[apache]='apache'
 	[fpm]='fpm'
@@ -90,7 +78,7 @@ for latest in "${latests[@]}"; do
 				if [[ $1 == 'build' ]]; then
 					tag="$version-$php_version-$variant"
 					echo "Build Dockerfile for ${tag}"
-					docker build -t ${dockerRepo}:${tag} $dir
+					docker build -t "${dockerRepo}:${tag}" "$dir"
 				fi
 			done
 
