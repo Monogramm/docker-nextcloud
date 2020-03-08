@@ -1,18 +1,6 @@
 #!/bin/bash
 set -eo pipefail
 
-declare -A cmd=(
-	[apache]='apache2-foreground'
-	[fpm]='php-fpm'
-	[fpm-alpine]='php-fpm'
-)
-
-declare -A program=(
-	[apache]='apache2'
-	[fpm]='php-fpm'
-	[fpm-alpine]='php-fpm'
-)
-
 declare -A compose=(
 	[apache]='apache'
 	[fpm]='fpm'
@@ -31,15 +19,13 @@ variants=(
 	fpm-alpine
 )
 
-min_version='13.0'
+min_version='14.0'
 
 
 # version_greater_or_equal A B returns whether A >= B
 function version_greater_or_equal() {
 	[[ "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1" || "$1" == "$2" ]];
 }
-
-php_versions=( "7.2" )
 
 dockerRepo="monogramm/docker-nextcloud"
 fullversions=( $( curl -fsSL 'https://download.nextcloud.com/server/releases/' |tac|tac| \
@@ -64,37 +50,33 @@ for latest in "${latests[@]}"; do
 	# Only add versions >= "$min_version"
 	if version_greater_or_equal "$version" "$min_version"; then
 
-		for php_version in "${php_versions[@]}"; do
+		for variant in "${variants[@]}"; do
+			echo "updating $latest [$version] $variant"
 
-			for variant in "${variants[@]}"; do
-				echo "updating $latest [$version] $variant"
+			# Create the version+php_version+variant directory with a Dockerfile.
+			dir="images/$version/$variant"
+			mkdir -p "$dir"
 
-				# Create the version+php_version+variant directory with a Dockerfile.
-				#dir="images/$version/php$php_version-$variant"
-				dir="images/$version/$variant"
-				mkdir -p "$dir"
+			# Replace the docker variables.
+			template="Dockerfile-${base[$variant]}.template"
+			cp "$template" "$dir/Dockerfile"
+			sed -ri -e '
+				s/%%VERSION%%/'"$version"'/g;
+				s/%%VARIANT%%/'"$variant"'/g;
+			' "$dir/Dockerfile"
 
-				# Replace the docker variables.
-				template="Dockerfile-${base[$variant]}.template"
-				cp "$template" "$dir/Dockerfile"
-				sed -ri -e '
-					s/%%VERSION%%/'"$version"'/g;
-					s/%%VARIANT%%/'"$variant"'/g;
-				' "$dir/Dockerfile"
+			cp ".dockerignore" "$dir/.dockerignore"
+			cp "docker-compose_${compose[$variant]}.yml" "$dir/docker-compose.yml"
 
-				cp ".dockerignore" "$dir/.dockerignore"
-				cp "docker-compose_${compose[$variant]}.yml" "$dir/docker-compose.yml"
+			travisEnv='\n    - VERSION='"$version"' VARIANT='"$variant$travisEnv"
 
-				travisEnv='\n    - VERSION='"$version"' PHP_VERSION='"$php_version"' VARIANT='"$variant$travisEnv"
-
-				if [[ $1 == 'build' ]]; then
-					tag="$version-$php_version-$variant"
-					echo "Build Dockerfile for ${tag}"
-					docker build -t ${dockerRepo}:${tag} $dir
-				fi
-			done
-
+			if [[ $1 == 'build' ]]; then
+				tag="$version-$version-$variant"
+				echo "Build Dockerfile for ${tag}"
+				docker build -t "${dockerRepo}:${tag}" "$dir"
+			fi
 		done
+
 	fi
 
 done

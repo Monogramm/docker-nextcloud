@@ -1,4 +1,4 @@
-FROM nextcloud:13.0-apache
+FROM nextcloud:18.0-fpm
 
 LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>"
 

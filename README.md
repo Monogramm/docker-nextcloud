@@ -1,7 +1,3 @@
-
-[uri_license]: http://www.gnu.org/licenses/agpl.html
-[uri_license_image]: https://img.shields.io/badge/License-AGPL%20v3-blue.svg
-
 [![License: AGPL v3][uri_license_image]][uri_license]
 [![Build Status](https://travis-ci.org/Monogramm/docker-nextcloud.svg)](https://travis-ci.org/Monogramm/docker-nextcloud)
 [![Docker Automated buid](https://img.shields.io/docker/build/monogramm/docker-nextcloud.svg)](https://hub.docker.com/r/monogramm/docker-nextcloud/)
@@ -29,28 +25,32 @@ A safe home for all your data. Access & share your files, calendars, contacts, m
 
 ## Supported tags
 
-https://hub.docker.com/r/monogramm/docker-nextcloud/
+<https://hub.docker.com/r/monogramm/docker-nextcloud/>
 
-* NextCloud 17.0
-    -	`17.0-apache`, `17-apache`, `apache`, `17.0`, `latest` (*17.0/apache/Dockerfile*)
-    -	`17.0-fpm-alpine`, `fpm-alpine` (*17.0/fpm-alpine/Dockerfile*)
-    -	`17.0-fpm`, `fpm` (*17.0/fpm/Dockerfile*)
-* NextCloud 16.0
-    -	`16.0-apache`, `16-apache`, `16.0` (*16.0/apache/Dockerfile*)
-    -	`16.0-fpm-alpine` (*16.0/fpm-alpine/Dockerfile*)
-    -	`16.0-fpm` (*16.0/fpm/Dockerfile*)
-* NextCloud 15.0
-    -	`15.0-apache`, `15-apache` (*15.0/apache/Dockerfile*)
-    -	`15.0-fpm-alpine` (*15.0/fpm-alpine/Dockerfile*)
-    -	`15.0-fpm` (*15.0/fpm/Dockerfile*)
-* NextCloud 14.0
-    -	`14.0-apache`, `14-apache`, `14.0` (*14.0/apache/Dockerfile*)
-    -	`14.0-fpm-alpine` (*14.0/fpm-alpine/Dockerfile*)
-    -	`14.0-fpm` (*14.0/fpm/Dockerfile*)
-* NextCloud 13.0
-    -	`13.0-apache`, `13-apache`, `13.0` (*13.0/apache/Dockerfile*)
-    -	`13.0-fpm-alpine` (*13.0/fpm-alpine/Dockerfile*)
-    -	`13.0-fpm` (*13.0/fpm/Dockerfile*)
+-   NextCloud 18.0
+    -   `18.0-apache`, `18-apache`, `apache`, `18.0`, `latest` (_18.0/apache/Dockerfile_)
+    -   `18.0-fpm-alpine`, `fpm-alpine` (_18.0/fpm-alpine/Dockerfile_)
+    -   `18.0-fpm`, `fpm` (_18.0/fpm/Dockerfile_)
+
+-   NextCloud 17.0
+    -   `17.0-apache`, `17-apache`, `17.0` (_17.0/apache/Dockerfile_)
+    -   `17.0-fpm-alpine` (_17.0/fpm-alpine/Dockerfile_)
+    -   `17.0-fpm` (_17.0/fpm/Dockerfile_)
+
+-   NextCloud 16.0
+    -   `16.0-apache`, `16-apache`, `16.0` (_16.0/apache/Dockerfile_)
+    -   `16.0-fpm-alpine` (_16.0/fpm-alpine/Dockerfile_)
+    -   `16.0-fpm` (_16.0/fpm/Dockerfile_)
+
+-   NextCloud 15.0
+    -   `15.0-apache`, `15-apache` (_15.0/apache/Dockerfile_)
+    -   `15.0-fpm-alpine` (_15.0/fpm-alpine/Dockerfile_)
+    -   `15.0-fpm` (_15.0/fpm/Dockerfile_)
+
+-   NextCloud 14.0
+    -   `14.0-apache`, `14-apache`, `14.0` (_14.0/apache/Dockerfile_)
+    -   `14.0-fpm-alpine` (_14.0/fpm-alpine/Dockerfile_)
+    -   `14.0-fpm` (_14.0/fpm/Dockerfile_)
 
 ## How to run this image ?
 
@@ -61,4 +61,9 @@ See NextCloud base image documentation for details.
 > [Nextcloud DockerHub](https://hub.docker.com/r/library/nextcloud/)
 
 # Questions / Issues
+
 If you got any questions or problems using the image, please visit our [Github Repository](https://github.com/Monogramm/docker-nextcloud) and write an issue.  
+
+[uri_license]: http://www.gnu.org/licenses/agpl.html
+
+[uri_license_image]: https://img.shields.io/badge/License-AGPL%20v3-blue.svg
