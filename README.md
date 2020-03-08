@@ -31,10 +31,14 @@ A safe home for all your data. Access & share your files, calendars, contacts, m
 
 https://hub.docker.com/r/monogramm/docker-nextcloud/
 
+* NextCloud 18.0
+    -	`18.0-apache`, `18-apache`, `apache`, `18.0`, `latest` (*18.0/apache/Dockerfile*)
+    -	`18.0-fpm-alpine`, `fpm-alpine` (*18.0/fpm-alpine/Dockerfile*)
+    -	`18.0-fpm`, `fpm` (*18.0/fpm/Dockerfile*)
 * NextCloud 17.0
-    -	`17.0-apache`, `17-apache`, `apache`, `17.0`, `latest` (*17.0/apache/Dockerfile*)
-    -	`17.0-fpm-alpine`, `fpm-alpine` (*17.0/fpm-alpine/Dockerfile*)
-    -	`17.0-fpm`, `fpm` (*17.0/fpm/Dockerfile*)
+    -	`17.0-apache`, `17-apache`, `17.0` (*17.0/apache/Dockerfile*)
+    -	`17.0-fpm-alpine` (*17.0/fpm-alpine/Dockerfile*)
+    -	`17.0-fpm` (*17.0/fpm/Dockerfile*)
 * NextCloud 16.0
     -	`16.0-apache`, `16-apache`, `16.0` (*16.0/apache/Dockerfile*)
     -	`16.0-fpm-alpine` (*16.0/fpm-alpine/Dockerfile*)
