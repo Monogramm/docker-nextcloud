@@ -60,7 +60,7 @@ See NextCloud base image documentation for details.
 
 > [Nextcloud DockerHub](https://hub.docker.com/r/library/nextcloud/)
 
-# Questions / Issues
+## Questions / Issues
 
 If you got any questions or problems using the image, please visit our [Github Repository](https://github.com/Monogramm/docker-nextcloud) and write an issue.  
 
