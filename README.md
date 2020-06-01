@@ -17,7 +17,7 @@ Provides a NextCloud with additional packages for samba, cron background tasks o
 
 > [NextCloud Passwords](https://github.com/marius-wieschollek/passwords)
 
-## What is NextCloud ?
+## What is NextCloud
 
 A safe home for all your data. Access & share your files, calendars, contacts, mail & more from any device, on your terms.
 
