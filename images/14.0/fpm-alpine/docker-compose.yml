@@ -6,8 +6,10 @@ services:
     container_name: nextcloud
     #restart: always
     depends_on:
-      - nextclouddb
-      - nextcloudredis
+      nextclouddb:
+        condition: service_healthy
+      nextcloudredis:
+        condition: service_started
     links:
       - nextclouddb
     ports:
@@ -29,6 +31,8 @@ services:
     stdin_open: true
     tty: true
     command: postgres -c 'max_connections=500'
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "nextcloud"]
     ports:
       - 5432:5432
     volumes:
@@ -66,6 +70,8 @@ services:
     image: redis:alpine
     container_name: nextcloudredis
     restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
 
   nextcloudcron:
     build: ./
@@ -75,5 +81,7 @@ services:
       - /srv/nextcloud/html:/var/www/html
     entrypoint: /cron.sh
     depends_on:
-      - nextclouddb
-      - nextcloudredis
+      nextclouddb:
+        condition: service_healthy
+      nextcloudredis:
+        condition: service_started

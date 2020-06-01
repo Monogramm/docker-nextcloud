@@ -58,7 +58,7 @@ for latest in "${latests[@]}"; do
 			mkdir -p "$dir"
 
 			# Replace the docker variables.
-			template="Dockerfile-${base[$variant]}.template"
+			template="Dockerfile.${base[$variant]}.template"
 			cp "$template" "$dir/Dockerfile"
 			sed -ri -e '
 				s/%%VERSION%%/'"$version"'/g;
