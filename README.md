@@ -27,10 +27,15 @@ A safe home for all your data. Access & share your files, calendars, contacts, m
 
 <https://hub.docker.com/r/monogramm/docker-nextcloud/>
 
+-   NextCloud 19.0
+    -   `19.0-apache`, `19-apache`, `apache`, `19.0`, `latest` (_19.0/apache/Dockerfile_)
+    -   `19.0-fpm-alpine`, `fpm-alpine` (_19.0/fpm-alpine/Dockerfile_)
+    -   `19.0-fpm`, `fpm` (_19.0/fpm/Dockerfile_)
+
 -   NextCloud 18.0
-    -   `18.0-apache`, `18-apache`, `apache`, `18.0`, `latest` (_18.0/apache/Dockerfile_)
-    -   `18.0-fpm-alpine`, `fpm-alpine` (_18.0/fpm-alpine/Dockerfile_)
-    -   `18.0-fpm`, `fpm` (_18.0/fpm/Dockerfile_)
+    -   `18.0-apache`, `18-apache`,`18.0` (_18.0/apache/Dockerfile_)
+    -   `18.0-fpm-alpine` (_18.0/fpm-alpine/Dockerfile_)
+    -   `18.0-fpm` (_18.0/fpm/Dockerfile_)
 
 -   NextCloud 17.0
     -   `17.0-apache`, `17-apache`, `17.0` (_17.0/apache/Dockerfile_)
@@ -41,16 +46,6 @@ A safe home for all your data. Access & share your files, calendars, contacts, m
     -   `16.0-apache`, `16-apache`, `16.0` (_16.0/apache/Dockerfile_)
     -   `16.0-fpm-alpine` (_16.0/fpm-alpine/Dockerfile_)
     -   `16.0-fpm` (_16.0/fpm/Dockerfile_)
-
--   NextCloud 15.0
-    -   `15.0-apache`, `15-apache` (_15.0/apache/Dockerfile_)
-    -   `15.0-fpm-alpine` (_15.0/fpm-alpine/Dockerfile_)
-    -   `15.0-fpm` (_15.0/fpm/Dockerfile_)
-
--   NextCloud 14.0
-    -   `14.0-apache`, `14-apache`, `14.0` (_14.0/apache/Dockerfile_)
-    -   `14.0-fpm-alpine` (_14.0/fpm-alpine/Dockerfile_)
-    -   `14.0-fpm` (_14.0/fpm/Dockerfile_)
 
 ## How to run this image ?
 
