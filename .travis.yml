@@ -10,19 +10,39 @@ branches:
     - develop
     - master
 
-before_script:
+before_install:
   - env | sort
-  - dir="images/${VERSION}/${VARIANT}"
+  - export home="$(pwd)"
+  - export dir="${home}/images/${VERSION}/${VARIANT}"
+
+install:
+  - cd "$dir"
+  # Test container build
+  - docker-compose build
+
+before_script:
+  - docker images
 
 script:
   - cd "$dir"
-  - docker-compose build
-  - docker images
+  # Test container run
   - travis_retry docker-compose up -d && sleep 60
   - docker-compose ps
-  - docker-compose logs
+  - docker-compose logs "nextclouddb"
   - docker-compose ps "nextclouddb" | grep "Up"
+  - docker-compose logs "nextcloud"
   - docker-compose ps "nextcloud" | grep "Up"
+  - docker-compose logs "nextcloudcron"
+  - docker-compose ps "nextcloudcron" | grep "Up"
+  # Test container restart
+  - docker-compose down
+  - travis_retry docker-compose up -d && sleep 20
+  - docker-compose ps
+  - docker-compose logs "nextclouddb"
+  - docker-compose ps "nextclouddb" | grep "Up"
+  - docker-compose logs "nextcloud"
+  - docker-compose ps "nextcloud" | grep "Up"
+  - docker-compose logs "nextcloudcron"
   - docker-compose ps "nextcloudcron" | grep "Up"
 
 notifications:
