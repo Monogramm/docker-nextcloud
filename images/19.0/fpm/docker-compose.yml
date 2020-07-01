@@ -13,16 +13,34 @@ services:
     links:
       - nextclouddb
     ports:
-      - 9000:9000
+      - "9000:9000"
     volumes:
       - /srv/nextcloud/html:/var/www/html
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     environment:
-      - REDIS_HOST=redis
+      # DB configuration
       - POSTGRES_HOST=nextclouddb # same as pgsql container name
-      # https://github.com/nextcloud/docker/issues/456
-      - POSTGRES_DB=nextcloud
-      - POSTGRES_USER=nextcloud # same as pgsql POSTGRES_USER env name
-      - POSTGRES_PASSWORD=nextcloud # same as pgsql POSTGRES_PASSWORD env name
+      - POSTGRES_DB=${NEXTCLOUD_DB_NAME}
+      - POSTGRES_USER=${NEXTCLOUD_DB_USER}
+      - POSTGRES_PASSWORD=${NEXTCLOUD_DB_PWD}
+      # Redis configuration
+      - REDIS_HOST=nextcloud_redis
+      - REDIS_PORT=6379
+      # SMTP configuration
+      - SMTP_HOST=mail.${DOMAIN}
+      - SMTP_SECURE=
+      - SMTP_PORT=1025
+      - SMTP_AUTHTYPE=LOGIN
+      - SMTP_NAME=${NEXTCLOUD_SMTP_USER}
+      - SMTP_PASSWORD=${NEXTCLOUD_SMTP_PWD}
+      - MAIL_FROM_ADDRESS=cloud
+      - MAIL_DOMAIN=localhost
+      # Admin configuration
+      - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_LOGIN}
+      - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PWD}
+      - NEXTCLOUD_TABLE_PREFIX=${NEXTCLOUD_TBL_PREFIX}
+      - NEXTCLOUD_TRUSTED_DOMAIN=localhost
 
   nextclouddb:
     image: postgres:latest
@@ -32,25 +50,25 @@ services:
     tty: true
     command: postgres -c 'max_connections=500'
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "nextcloud"]
+      test: ["CMD", "pg_isready", "-U", "${NEXTCLOUD_DB_USER}"]
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
       - /srv/nextcloud/db:/var/lib/postgresql/data
     environment:
       # https://github.com/nextcloud/docker/issues/456
       - POSTGRES_DB=workaround
-      - POSTGRES_USER=nextcloud
-      - POSTGRES_PASSWORD=nextcloud
+      - POSTGRES_USER=${NEXTCLOUD_DB_USER}
+      - POSTGRES_PASSWORD=${NEXTCLOUD_DB_PWD}
 
   nextcloudnginx:
     image: nginx:latest
     container_name: nextcloudnginx
     restart: always
     ports:
-      - 80:80
+      - "80:80"
       # If you need SSL connection
-      # - '443:443'
+      # - "443:443"
     depends_on:
       - nextcloud
     links:
@@ -85,3 +103,16 @@ services:
         condition: service_healthy
       nextcloudredis:
         condition: service_started
+
+  nextcloudmailer:
+    image: sj26/mailcatcher:latest
+    hostname: nextcloudmailer
+    container_name: nextcloudmailer
+    restart: always
+    expose:
+      - 1025
+    ports:
+      - 1080:1080
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
