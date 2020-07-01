@@ -28,7 +28,7 @@ services:
       - REDIS_HOST=nextcloud_redis
       - REDIS_PORT=6379
       # SMTP configuration
-      - SMTP_HOST=mail.${DOMAIN}
+      - SMTP_HOST=nextcloudmailer
       - SMTP_SECURE=
       - SMTP_PORT=1025
       - SMTP_AUTHTYPE=LOGIN
