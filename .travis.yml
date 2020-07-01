@@ -12,7 +12,8 @@ branches:
 
 before_install:
   - env | sort
-  - export dir="images/${VERSION}/${VARIANT}"
+  - export home="$(pwd)"
+  - export dir="${home}/images/${VERSION}/${VARIANT}"
 
 install:
   - cd "$dir"
