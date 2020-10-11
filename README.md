@@ -47,11 +47,6 @@ A safe home for all your data. Access & share your files, calendars, contacts, m
     -   `17.0-fpm-alpine` (_17.0/fpm-alpine/Dockerfile_)
     -   `17.0-fpm` (_17.0/fpm/Dockerfile_)
 
--   NextCloud 16.0
-    -   `16.0-apache`, `16-apache`, `16.0` (_16.0/apache/Dockerfile_)
-    -   `16.0-fpm-alpine` (_16.0/fpm-alpine/Dockerfile_)
-    -   `16.0-fpm` (_16.0/fpm/Dockerfile_)
-
 ## How to run this image ?
 
 See NextCloud base image documentation for details.
