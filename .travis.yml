@@ -61,3 +61,6 @@ env: # Environments
     - VERSION=19.0 VARIANT=fpm-alpine
     - VERSION=19.0 VARIANT=fpm
     - VERSION=19.0 VARIANT=apache
+    - VERSION=20.0 VARIANT=fpm-alpine
+    - VERSION=20.0 VARIANT=fpm
+    - VERSION=20.0 VARIANT=apache
