@@ -20,6 +20,7 @@ variants=(
 )
 
 min_version='17.0'
+dockerLatest='20.0'
 
 
 # version_greater_or_equal A B returns whether A >= B
@@ -57,11 +58,13 @@ for latest in "${latests[@]}"; do
 			mkdir -p "$dir"
 
 			template="Dockerfile.${base[$variant]}.template"
-			cp "$template" "$dir/Dockerfile"
+			cp "template/$template" "$dir/Dockerfile"
 
-			cp ".env" "$dir/.env"
-			cp ".dockerignore" "$dir/.dockerignore"
-			cp "docker-compose_${compose[$variant]}.yml" "$dir/docker-compose.yml"
+			cp -r "template/hooks/" "$dir/"
+			cp -r "template/test/" "$dir/"
+			cp "template/.env" "$dir/.env"
+			cp "template/.dockerignore" "$dir/.dockerignore"
+			cp "template/docker-compose.${compose[$variant]}.test.yml" "$dir/docker-compose.test.yml"
 
 			# Replace the docker variables.
 			sed -ri -e '
@@ -69,6 +72,27 @@ for latest in "${latests[@]}"; do
 				s/%%VARIANT%%/'"$variant"'/g;
 			' "$dir/Dockerfile"
 
+			sed -ri -e '
+				s|DOCKER_TAG=.*|DOCKER_TAG='"$version-$variant"'|g;
+				s|DOCKER_REPO=.*|DOCKER_REPO='"$dockerRepo"'|g;
+			' "$dir/hooks/run"
+
+			# Create a list of "alias" tags for DockerHub post_push
+			if [ "$latest" = "$dockerLatest" ]; then
+				if [ "$variant" = 'apache' ]; then
+					echo "$latest-$variant $variant $latest latest " > "$dir/.dockertags"
+				else
+					echo "$latest-$variant $variant " > "$dir/.dockertags"
+				fi
+			else
+				if [ "$variant" = 'apache' ]; then
+					echo "$latest-$variant $version-$variant $latest $version " > "$dir/.dockertags"
+				else
+					echo "$latest-$variant $version-$variant " > "$dir/.dockertags"
+				fi
+			fi
+
+			# Add Travis-CI env var
 			travisEnv='\n    - VERSION='"$version"' VARIANT='"$variant$travisEnv"
 
 			if [[ $1 == 'build' ]]; then
