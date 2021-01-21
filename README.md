@@ -27,15 +27,16 @@ A safe home for all your data. Access & share your files, calendars, contacts, m
 
 <https://hub.docker.com/r/monogramm/docker-nextcloud/>
 
+<!--< DockerHub tags-->
 -   NextCloud 20.0
     -   `20.0-apache`, `20-apache`, `apache`, `20.0`, `latest` (_20.0/apache/Dockerfile_)
     -   `20.0-fpm-alpine`, `fpm-alpine` (_20.0/fpm-alpine/Dockerfile_)
     -   `20.0-fpm`, `fpm` (_20.0/fpm/Dockerfile_)
 
 -   NextCloud 19.0
-    -   `19.0-apache`, `19-apache`, `19.0`, `latest` (_19.0/apache/Dockerfile_)
-    -   `19.0-fpm-alpine`, `fpm-alpine` (_19.0/fpm-alpine/Dockerfile_)
-    -   `19.0-fpm`, `fpm` (_19.0/fpm/Dockerfile_)
+    -   `19.0-apache`, `19-apache`, `19.0` (_19.0/apache/Dockerfile_)
+    -   `19.0-fpm-alpine` (_19.0/fpm-alpine/Dockerfile_)
+    -   `19.0-fpm` (_19.0/fpm/Dockerfile_)
 
 -   NextCloud 18.0
     -   `18.0-apache`, `18-apache`,`18.0` (_18.0/apache/Dockerfile_)
@@ -46,6 +47,7 @@ A safe home for all your data. Access & share your files, calendars, contacts, m
     -   `17.0-apache`, `17-apache`, `17.0` (_17.0/apache/Dockerfile_)
     -   `17.0-fpm-alpine` (_17.0/fpm-alpine/Dockerfile_)
     -   `17.0-fpm` (_17.0/fpm/Dockerfile_)
+<!--> DockerHub tags-->
 
 ## How to run this image ?
 

@@ -1,0 +1,141 @@
+version: "2.3"
+
+services:
+  # https://docs.docker.com/docker-hub/builds/automated-testing/
+  sut:
+    build:
+      context: ./test
+      dockerfile: Dockerfile
+    command: sh /docker_test.sh
+    depends_on:
+      - nextcloud
+    environment:
+      - DOCKER_TEST_CONTAINER=nextcloud
+    volumes_from:
+      - nextcloud
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+  nextcloud:
+    build:
+      context: .
+      dockerfile: ${DOCKERFILE_PATH}
+      args:
+        - TAG=${DOCKER_TAG}
+    image: ${IMAGE_NAME}
+    container_name: nextcloud
+    #restart: always
+    depends_on:
+      nextclouddb:
+        condition: service_healthy
+      nextcloudredis:
+        condition: service_started
+    links:
+      - nextclouddb
+    ports:
+      - "9000:9000"
+    volumes:
+      - /srv/nextcloud/html:/var/www/html
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    environment:
+      # DB configuration
+      - POSTGRES_HOST=nextclouddb # same as pgsql container name
+      - POSTGRES_DB=${NEXTCLOUD_DB_NAME}
+      - POSTGRES_USER=${NEXTCLOUD_DB_USER}
+      - POSTGRES_PASSWORD=${NEXTCLOUD_DB_PWD}
+      # Redis configuration
+      - REDIS_HOST=nextcloud_redis
+      - REDIS_PORT=6379
+      # SMTP configuration
+      - SMTP_HOST=nextcloudmailer
+      - SMTP_SECURE=
+      - SMTP_PORT=1025
+      - SMTP_AUTHTYPE=LOGIN
+      - SMTP_NAME=${NEXTCLOUD_SMTP_USER}
+      - SMTP_PASSWORD=${NEXTCLOUD_SMTP_PWD}
+      - MAIL_FROM_ADDRESS=cloud
+      - MAIL_DOMAIN=localhost
+      # Admin configuration
+      - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_LOGIN}
+      - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PWD}
+      - NEXTCLOUD_TABLE_PREFIX=${NEXTCLOUD_TBL_PREFIX}
+      - NEXTCLOUD_TRUSTED_DOMAIN=localhost
+
+  nextclouddb:
+    image: postgres:latest
+    container_name: nextclouddb
+    restart: always
+    stdin_open: true
+    tty: true
+    command: postgres -c 'max_connections=500'
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${NEXTCLOUD_DB_USER}"]
+    #ports:
+    #  - "5432:5432"
+    volumes:
+      - /srv/nextcloud/db:/var/lib/postgresql/data
+    environment:
+      # https://github.com/nextcloud/docker/issues/456
+      - POSTGRES_DB=workaround
+      - POSTGRES_USER=${NEXTCLOUD_DB_USER}
+      - POSTGRES_PASSWORD=${NEXTCLOUD_DB_PWD}
+
+  nextcloudnginx:
+    image: nginx:latest
+    container_name: nextcloudnginx
+    restart: always
+    expose:
+      - "80"
+    ports:
+      - "8080:80"
+      # If you need SSL connection
+      # - "443:443"
+    depends_on:
+      - nextcloud
+    links:
+      - nextcloud
+    volumes:
+      - /srv/nextcloud/html:/var/www/html
+      # TODO Provide a custom nginx conf
+      #- ./nginx.conf:/etc/nginx/nginx.conf:ro
+      # If you need SSL connection, you can provide your own certificates
+      # - ./certs:/etc/letsencrypt
+      # - ./certs-data:/data/letsencrypt
+    environment:
+      - NGINX_HOST=localhost # set your local domain or your live domain
+      # - NGINX_CGI=nextcloud:9000 # same as nextcloud container name
+
+  nextcloudredis:
+    image: redis:alpine
+    container_name: nextcloudredis
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+
+  nextcloudcron:
+    build: ./
+    container_name: nextcloudcron
+    #restart: always
+    volumes:
+      - /srv/nextcloud/html:/var/www/html
+    entrypoint: /cron.sh
+    depends_on:
+      nextclouddb:
+        condition: service_healthy
+      nextcloudredis:
+        condition: service_started
+
+  nextcloudmailer:
+    image: sj26/mailcatcher:latest
+    hostname: nextcloudmailer
+    container_name: nextcloudmailer
+    restart: always
+    expose:
+      - 1025
+    ports:
+      - 1080:1080
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro

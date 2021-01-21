@@ -12,19 +12,30 @@ branches:
 
 before_install:
   - env | sort
-  - export home="$(pwd)"
-  - export dir="${home}/images/${VERSION}/${VARIANT}"
+  - export src_dir="$(pwd)"
+  - export dir="${src_dir}/images/${VERSION}/${VARIANT}"
+  - export DOCKER_REPO=monogramm/docker-nextcloud
+  - export DOCKERFILE_PATH=Dockerfile
+  - export DOCKER_TAG=$VERSION-$VARIANT-travis
+  - export IMAGE_NAME=${DOCKER_REPO}:${DOCKER_TAG}
 
 install:
   - cd "$dir"
   # Test container build
-  - docker-compose build
+  - docker build --build-arg "TAG=${DOCKER_TAG}" --build-arg "VCS_REF=$(git rev-parse --short HEAD)" --build-arg "BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" -f "$DOCKERFILE_PATH" -t "$IMAGE_NAME" .
+  #- docker-compose build
 
 before_script:
   - docker images
 
 script:
   - cd "$dir"
+  # Test container run (docker)
+  #- docker run --name "app" -d "$IMAGE_NAME"
+  #- docker ps
+  #- docker logs "app"
+  #- docker stop "app"
+  #- docker rm -f -v "app"
   # Test container run
   - travis_retry docker-compose up -d && sleep 60
   - docker-compose ps
@@ -34,6 +45,7 @@ script:
   - docker-compose ps "nextcloud" | grep "Up"
   - docker-compose logs "nextcloudcron"
   - docker-compose ps "nextcloudcron" | grep "Up"
+  - docker-compose ps "sut" | grep "Exit 0"
   # Test container restart
   - docker-compose down
   - travis_retry docker-compose up -d && sleep 20
@@ -44,6 +56,7 @@ script:
   - docker-compose ps "nextcloud" | grep "Up"
   - docker-compose logs "nextcloudcron"
   - docker-compose ps "nextcloudcron" | grep "Up"
+  - docker-compose ps "sut" | grep "Exit 0"
 
 notifications:
   email: false
