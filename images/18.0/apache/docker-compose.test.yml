@@ -18,7 +18,11 @@ services:
       - /etc/timezone:/etc/timezone:ro
 
   nextcloud:
-    #build: ./
+    build:
+      context: .
+      dockerfile: ${DOCKERFILE_PATH}
+      args:
+        - TAG=${DOCKER_TAG}
     image: ${IMAGE_NAME}
     container_name: nextcloud
     #restart: always
@@ -36,7 +40,7 @@ services:
     links:
       - nextclouddb
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
       - /srv/nextcloud/html:/var/www/html
       - /etc/localtime:/etc/localtime:ro
@@ -74,8 +78,8 @@ services:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "--password=${NEXTCLOUD_DB_ROOT_PWD}"]
       timeout: 10s
       retries: 5
-    ports:
-      - "3306:3306"
+    #ports:
+    #  - "3306:3306"
     volumes:
       - /srv/nextcloud/db:/var/lib/mysql
     environment:

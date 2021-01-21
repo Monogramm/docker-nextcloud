@@ -18,7 +18,11 @@ services:
       - /etc/timezone:/etc/timezone:ro
 
   nextcloud:
-    build: ./
+    build:
+      context: .
+      dockerfile: ${DOCKERFILE_PATH}
+      args:
+        - TAG=${DOCKER_TAG}
     image: ${IMAGE_NAME}
     container_name: nextcloud
     #restart: always
@@ -68,8 +72,8 @@ services:
     command: postgres -c 'max_connections=500'
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "${NEXTCLOUD_DB_USER}"]
-    ports:
-      - "5432:5432"
+    #ports:
+    #  - "5432:5432"
     volumes:
       - /srv/nextcloud/db:/var/lib/postgresql/data
     environment:
@@ -83,7 +87,7 @@ services:
     container_name: nextcloudnginx
     restart: always
     ports:
-      - "80:80"
+      - "8080:80"
       # If you need SSL connection
       # - "443:443"
     depends_on:
