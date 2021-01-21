@@ -39,6 +39,8 @@ services:
         condition: service_started
     links:
       - nextclouddb
+    expose:
+      - "80"
     ports:
       - "8080:80"
     volumes:

@@ -86,6 +86,8 @@ services:
     image: nginx:latest
     container_name: nextcloudnginx
     restart: always
+    expose:
+      - "80"
     ports:
       - "8080:80"
       # If you need SSL connection
