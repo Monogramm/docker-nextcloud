@@ -1,6 +1,12 @@
 #!/bin/bash
 set -eo pipefail
 
+declare -A conf=(
+	[apache]=''
+	[fpm]='nginx'
+	[fpm-alpine]='nginx'
+)
+
 declare -A compose=(
 	[apache]='apache'
 	[fpm]='fpm'
@@ -19,8 +25,8 @@ variants=(
 	fpm-alpine
 )
 
-min_version='17.0'
-dockerLatest='20.0'
+min_version='18.0'
+dockerLatest='21.0'
 
 
 # version_greater_or_equal A B returns whether A >= B
@@ -41,6 +47,7 @@ find ./images -maxdepth 1 -type d -regextype sed -regex '\./images/[[:digit:]]\+
 
 echo "update docker images"
 travisEnv=
+readmeTags=
 for latest in "${latests[@]}"; do
 	version=$(echo "$latest" | cut -d. -f1-2)
 
@@ -65,6 +72,10 @@ for latest in "${latests[@]}"; do
 			cp "template/.env" "$dir/.env"
 			cp "template/.dockerignore" "$dir/.dockerignore"
 			cp "template/docker-compose.${compose[$variant]}.test.yml" "$dir/docker-compose.test.yml"
+
+			if [ -n "${conf[$variant]}" ] && [ -d "template/${conf[$variant]}" ]; then
+				cp -r "template/${conf[$variant]}" "$dir/${conf[$variant]}"
+			fi
 
 			# Replace the docker variables.
 			sed -ri -e '
@@ -95,6 +106,9 @@ for latest in "${latests[@]}"; do
 			# Add Travis-CI env var
 			travisEnv='\n    - VERSION='"$version"' VARIANT='"$variant$travisEnv"
 
+			# Add README.md tags
+			readmeTags="$readmeTags\n-   \`$dir/Dockerfile\`: $(cat $dir/.dockertags)<!--+tags-->"
+
 			if [[ $1 == 'build' ]]; then
 				tag="$version-$version-$variant"
 				echo "Build Dockerfile for ${tag}"
@@ -109,3 +123,8 @@ done
 # update .travis.yml
 travis="$(awk -v 'RS=\n\n' '$1 == "env:" && $2 == "#" && $3 == "Environments" { $0 = "env: # Environments'"$travisEnv"'" } { printf "%s%s", $0, RS }' .travis.yml)"
 echo "$travis" > .travis.yml
+
+# update README.md
+sed -i -e '/^-   .*<!--+tags-->/d' README.md
+readme="$(awk -v 'RS=\n\n' '$1 == "Tags:" { $0 = "Tags:'"$readmeTags"'" } { printf "%s%s", $0, RS }' README.md)"
+echo "$readme" > README.md

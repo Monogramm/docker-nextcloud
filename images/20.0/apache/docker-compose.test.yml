@@ -1,5 +1,9 @@
 version: "2.3"
 
+volumes:
+  db:
+  data:
+
 services:
   # https://docs.docker.com/docker-hub/builds/automated-testing/
   sut:
@@ -11,6 +15,7 @@ services:
       - nextcloud
     environment:
       - DOCKER_TEST_CONTAINER=nextcloud
+      - DOCKER_WEB_CONTAINER=nextcloud
     volumes_from:
       - nextcloud
     volumes:
@@ -41,10 +46,11 @@ services:
       - nextclouddb
     expose:
       - "80"
-    ports:
-      - "8080:80"
+    #ports:
+    #  - "8080:80"
     volumes:
-      - /srv/nextcloud/html:/var/www/html
+      - data:/var/www/html
+      #- /srv/nextcloud/html:/var/www/html
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
     environment:
@@ -83,7 +89,8 @@ services:
     #ports:
     #  - "3306:3306"
     volumes:
-      - /srv/nextcloud/db:/var/lib/mysql
+      - db:/var/lib/mysql
+      #- /srv/nextcloud/db:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${NEXTCLOUD_DB_ROOT_PWD}
       - MYSQL_DATABASE=${NEXTCLOUD_DB_NAME}
@@ -102,7 +109,8 @@ services:
     container_name: nextcloudcron
     #restart: always
     volumes:
-      - /srv/nextcloud/html:/var/www/html
+      - data:/var/www/html
+      #- /srv/nextcloud/html:/var/www/html
     entrypoint: /cron.sh
     depends_on:
       nextclouddb:
