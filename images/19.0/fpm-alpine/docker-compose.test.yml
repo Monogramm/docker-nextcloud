@@ -1,5 +1,9 @@
 version: "2.3"
 
+volumes:
+  db:
+  data:
+
 services:
   # https://docs.docker.com/docker-hub/builds/automated-testing/
   sut:
@@ -9,8 +13,11 @@ services:
     command: sh /docker_test.sh
     depends_on:
       - nextcloud
+      - nextcloudnginx
     environment:
       - DOCKER_TEST_CONTAINER=nextcloud
+      # TODO Provide a custom nginx conf
+      #- DOCKER_WEB_CONTAINER=nextcloudnginx
     volumes_from:
       - nextcloud
     volumes:
@@ -33,10 +40,13 @@ services:
         condition: service_started
     links:
       - nextclouddb
-    ports:
-      - "9000:9000"
+    expose:
+      - "9000"
+    #ports:
+    #  - "9090:9000"
     volumes:
-      - /srv/nextcloud/html:/var/www/html
+      - data:/var/www/html
+      #- /srv/nextcloud/html:/var/www/html
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
     environment:
@@ -75,7 +85,8 @@ services:
     #ports:
     #  - "5432:5432"
     volumes:
-      - /srv/nextcloud/db:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
+      #- /srv/nextcloud/db:/var/lib/postgresql/data
     environment:
       # https://github.com/nextcloud/docker/issues/456
       - POSTGRES_DB=workaround
@@ -88,16 +99,17 @@ services:
     restart: always
     expose:
       - "80"
-    ports:
-      - "8080:80"
-      # If you need SSL connection
-      # - "443:443"
+    #ports:
+    #  - "8080:80"
+    #  # If you need SSL connection
+    #  - "8443:443"
     depends_on:
       - nextcloud
     links:
       - nextcloud
     volumes:
-      - /srv/nextcloud/html:/var/www/html
+      - data:/var/www/html
+      #- /srv/nextcloud/html:/var/www/html
       # TODO Provide a custom nginx conf
       #- ./nginx.conf:/etc/nginx/nginx.conf:ro
       # If you need SSL connection, you can provide your own certificates
@@ -105,7 +117,7 @@ services:
       # - ./certs-data:/data/letsencrypt
     environment:
       - NGINX_HOST=localhost # set your local domain or your live domain
-      # - NGINX_CGI=nextcloud:9000 # same as nextcloud container name
+      - NGINX_PHP_CGI=nextcloud:9000 # same as nextcloud container name
 
   nextcloudredis:
     image: redis:alpine
@@ -119,7 +131,8 @@ services:
     container_name: nextcloudcron
     #restart: always
     volumes:
-      - /srv/nextcloud/html:/var/www/html
+      - data:/var/www/html
+      #- /srv/nextcloud/html:/var/www/html
     entrypoint: /cron.sh
     depends_on:
       nextclouddb:
@@ -135,7 +148,7 @@ services:
     expose:
       - 1025
     ports:
-      - 1080:1080
+      - "1080:1080"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro

@@ -27,27 +27,19 @@ A safe home for all your data. Access & share your files, calendars, contacts, m
 
 <https://hub.docker.com/r/monogramm/docker-nextcloud/>
 
-<!--< DockerHub tags-->
--   NextCloud 20.0
-    -   `20.0-apache`, `20-apache`, `apache`, `20.0`, `latest` (_20.0/apache/Dockerfile_)
-    -   `20.0-fpm-alpine`, `fpm-alpine` (_20.0/fpm-alpine/Dockerfile_)
-    -   `20.0-fpm`, `fpm` (_20.0/fpm/Dockerfile_)
-
--   NextCloud 19.0
-    -   `19.0-apache`, `19-apache`, `19.0` (_19.0/apache/Dockerfile_)
-    -   `19.0-fpm-alpine` (_19.0/fpm-alpine/Dockerfile_)
-    -   `19.0-fpm` (_19.0/fpm/Dockerfile_)
-
--   NextCloud 18.0
-    -   `18.0-apache`, `18-apache`,`18.0` (_18.0/apache/Dockerfile_)
-    -   `18.0-fpm-alpine` (_18.0/fpm-alpine/Dockerfile_)
-    -   `18.0-fpm` (_18.0/fpm/Dockerfile_)
-
--   NextCloud 17.0
-    -   `17.0-apache`, `17-apache`, `17.0` (_17.0/apache/Dockerfile_)
-    -   `17.0-fpm-alpine` (_17.0/fpm-alpine/Dockerfile_)
-    -   `17.0-fpm` (_17.0/fpm/Dockerfile_)
-<!--> DockerHub tags-->
+Tags:
+-   `images/21.0/apache/Dockerfile`: 21.0-apache apache 21.0 latest <!--+tags-->
+-   `images/21.0/fpm/Dockerfile`: 21.0-fpm fpm <!--+tags-->
+-   `images/21.0/fpm-alpine/Dockerfile`: 21.0-fpm-alpine fpm-alpine <!--+tags-->
+-   `images/20.0/apache/Dockerfile`: 20.0-apache 20.0-apache 20.0 20.0 <!--+tags-->
+-   `images/20.0/fpm/Dockerfile`: 20.0-fpm 20.0-fpm <!--+tags-->
+-   `images/20.0/fpm-alpine/Dockerfile`: 20.0-fpm-alpine 20.0-fpm-alpine <!--+tags-->
+-   `images/19.0/apache/Dockerfile`: 19.0-apache 19.0-apache 19.0 19.0 <!--+tags-->
+-   `images/19.0/fpm/Dockerfile`: 19.0-fpm 19.0-fpm <!--+tags-->
+-   `images/19.0/fpm-alpine/Dockerfile`: 19.0-fpm-alpine 19.0-fpm-alpine <!--+tags-->
+-   `images/18.0/apache/Dockerfile`: 18.0-apache 18.0-apache 18.0 18.0 <!--+tags-->
+-   `images/18.0/fpm/Dockerfile`: 18.0-fpm 18.0-fpm <!--+tags-->
+-   `images/18.0/fpm-alpine/Dockerfile`: 18.0-fpm-alpine 18.0-fpm-alpine <!--+tags-->
 
 ## How to run this image ?
 
