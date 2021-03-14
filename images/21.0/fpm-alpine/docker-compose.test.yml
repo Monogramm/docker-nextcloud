@@ -16,7 +16,7 @@ services:
       - nextcloudnginx
     environment:
       - DOCKER_TEST_CONTAINER=nextcloud
-      # TODO Provide a custom nginx conf
+      # FIXME {"error": "Trusted domain error.", "code": 15}
       #- DOCKER_WEB_CONTAINER=nextcloudnginx
     volumes_from:
       - nextcloud
@@ -56,7 +56,7 @@ services:
       - POSTGRES_USER=${NEXTCLOUD_DB_USER}
       - POSTGRES_PASSWORD=${NEXTCLOUD_DB_PWD}
       # Redis configuration
-      - REDIS_HOST=nextcloud_redis
+      - REDIS_HOST=nextcloudredis
       - REDIS_PORT=6379
       # SMTP configuration
       - SMTP_HOST=nextcloudmailer
@@ -110,8 +110,9 @@ services:
     volumes:
       - data:/var/www/html
       #- /srv/nextcloud/html:/var/www/html
-      # TODO Provide a custom nginx conf
-      #- ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/templates:/etc/nginx/templates
+      # Provide a custom nginx conf
+      #- ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       # If you need SSL connection, you can provide your own certificates
       # - ./certs:/etc/letsencrypt
       # - ./certs-data:/data/letsencrypt

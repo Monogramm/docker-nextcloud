@@ -60,7 +60,7 @@ services:
       - MYSQL_USER=${NEXTCLOUD_DB_USER}
       - MYSQL_PASSWORD=${NEXTCLOUD_DB_PWD}
       # Redis configuration
-      - REDIS_HOST=nextcloud_redis
+      - REDIS_HOST=nextcloudredis
       - REDIS_PORT=6379
       # SMTP configuration
       - SMTP_HOST=nextcloudmailer
