@@ -46,13 +46,19 @@ echo "reset docker images"
 find ./images -maxdepth 1 -type d -regextype sed -regex '\./images/[[:digit:]]\+\.[[:digit:]]\+' -exec rm -r '{}' \;
 
 echo "update docker images"
-travisEnv=
 readmeTags=
+githubEnv=
+travisEnv=
 for latest in "${latests[@]}"; do
 	version=$(echo "$latest" | cut -d. -f1-2)
 
 	# Only add versions >= "$min_version"
 	if version_greater_or_equal "$version" "$min_version"; then
+
+		if [ ! -d "images/$version" ]; then
+			# Add GitHub Actions env var
+			githubEnv="'$version', $githubEnv"
+		fi
 
 		for variant in "${variants[@]}"; do
 			echo "updating $latest [$version] $variant"
@@ -91,23 +97,24 @@ for latest in "${latests[@]}"; do
 			# Create a list of "alias" tags for DockerHub post_push
 			if [ "$latest" = "$dockerLatest" ]; then
 				if [ "$variant" = 'apache' ]; then
-					echo "$latest-$variant $variant $latest latest " > "$dir/.dockertags"
+					export DOCKER_TAGS="$latest-$variant $variant $latest latest "
 				else
-					echo "$latest-$variant $variant " > "$dir/.dockertags"
+					export DOCKER_TAGS="$latest-$variant $variant "
 				fi
 			else
 				if [ "$variant" = 'apache' ]; then
-					echo "$latest-$variant $version-$variant $latest $version " > "$dir/.dockertags"
+					export DOCKER_TAGS="$latest-$variant $version-$variant $latest $version "
 				else
-					echo "$latest-$variant $version-$variant " > "$dir/.dockertags"
+					export DOCKER_TAGS="$latest-$variant $version-$variant "
 				fi
 			fi
-
-			# Add Travis-CI env var
-			travisEnv='\n    - VERSION='"$version"' VARIANT='"$variant$travisEnv"
+			echo "${DOCKER_TAGS}" > "$dir/.dockertags"
 
 			# Add README.md tags
 			readmeTags="$readmeTags\n-   \`$dir/Dockerfile\`: $(cat $dir/.dockertags)<!--+tags-->"
+
+			# Add Travis-CI env var
+			travisEnv='\n    - VERSION='"$version"' VARIANT='"$variant$travisEnv"
 
 			if [[ $1 == 'build' ]]; then
 				tag="$version-$version-$variant"
@@ -120,11 +127,14 @@ for latest in "${latests[@]}"; do
 
 done
 
-# update .travis.yml
-travis="$(awk -v 'RS=\n\n' '$1 == "env:" && $2 == "#" && $3 == "Environments" { $0 = "env: # Environments'"$travisEnv"'" } { printf "%s%s", $0, RS }' .travis.yml)"
-echo "$travis" > .travis.yml
-
 # update README.md
 sed -i -e '/^-   .*<!--+tags-->/d' README.md
 readme="$(awk -v 'RS=\n\n' '$1 == "Tags:" { $0 = "Tags:'"$readmeTags"'" } { printf "%s%s", $0, RS }' README.md)"
 echo "$readme" > README.md
+
+# update .github workflows
+sed -i -e "s|version: \[.*\]|version: [${githubEnv}]|g" .github/workflows/hooks.yml
+
+# update .travis.yml
+travis="$(awk -v 'RS=\n\n' '$1 == "env:" && $2 == "#" && $3 == "Environments" { $0 = "env: # Environments'"$travisEnv"'" } { printf "%s%s", $0, RS }' .travis.yml)"
+echo "$travis" > .travis.yml
