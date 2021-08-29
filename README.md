@@ -28,24 +28,21 @@ A safe home for all your data. Access & share your files, calendars, contacts, m
 <https://hub.docker.com/r/monogramm/docker-nextcloud/>
 
 Tags:
--   `images/22.1/apache/Dockerfile`: 22.1-apache 22.1-apache 22.1 22.1 <!--+tags-->
--   `images/22.1/fpm/Dockerfile`: 22.1-fpm 22.1-fpm <!--+tags-->
--   `images/22.1/fpm-alpine/Dockerfile`: 22.1-fpm-alpine 22.1-fpm-alpine <!--+tags-->
--   `images/22.0/apache/Dockerfile`: 22.0-apache 22.0-apache 22.0 22.0 <!--+tags-->
--   `images/22.0/fpm/Dockerfile`: 22.0-fpm 22.0-fpm <!--+tags-->
--   `images/22.0/fpm-alpine/Dockerfile`: 22.0-fpm-alpine 22.0-fpm-alpine <!--+tags-->
--   `images/21.0/apache/Dockerfile`: 21.0-apache apache 21.0 latest <!--+tags-->
--   `images/21.0/fpm/Dockerfile`: 21.0-fpm fpm <!--+tags-->
--   `images/21.0/fpm-alpine/Dockerfile`: 21.0-fpm-alpine fpm-alpine <!--+tags-->
--   `images/20.0/apache/Dockerfile`: 20.0-apache 20.0-apache 20.0 20.0 <!--+tags-->
--   `images/20.0/fpm/Dockerfile`: 20.0-fpm 20.0-fpm <!--+tags-->
--   `images/20.0/fpm-alpine/Dockerfile`: 20.0-fpm-alpine 20.0-fpm-alpine <!--+tags-->
--   `images/19.0/apache/Dockerfile`: 19.0-apache 19.0-apache 19.0 19.0 <!--+tags-->
--   `images/19.0/fpm/Dockerfile`: 19.0-fpm 19.0-fpm <!--+tags-->
--   `images/19.0/fpm-alpine/Dockerfile`: 19.0-fpm-alpine 19.0-fpm-alpine <!--+tags-->
--   `images/18.0/apache/Dockerfile`: 18.0-apache 18.0-apache 18.0 18.0 <!--+tags-->
--   `images/18.0/fpm/Dockerfile`: 18.0-fpm 18.0-fpm <!--+tags-->
--   `images/18.0/fpm-alpine/Dockerfile`: 18.0-fpm-alpine 18.0-fpm-alpine <!--+tags-->
+-   `images/22.1/apache/Dockerfile`: 22.1-apache apache 22.1 latest <!--+tags-->
+-   `images/22.1/fpm/Dockerfile`: 22.1-fpm fpm <!--+tags-->
+-   `images/22.1/fpm-alpine/Dockerfile`: 22.1-fpm-alpine fpm-alpine <!--+tags-->
+-   `images/22.0/apache/Dockerfile`: 22.0-apache 22.0 <!--+tags-->
+-   `images/22.0/fpm/Dockerfile`: 22.0-fpm <!--+tags-->
+-   `images/22.0/fpm-alpine/Dockerfile`: 22.0-fpm-alpine <!--+tags-->
+-   `images/21.0/apache/Dockerfile`: 21.0-apache 21.0 <!--+tags-->
+-   `images/21.0/fpm/Dockerfile`: 21.0-fpm <!--+tags-->
+-   `images/21.0/fpm-alpine/Dockerfile`: 21.0-fpm-alpine <!--+tags-->
+-   `images/20.0/apache/Dockerfile`: 20.0-apache 20.0 <!--+tags-->
+-   `images/20.0/fpm/Dockerfile`: 20.0-fpm <!--+tags-->
+-   `images/20.0/fpm-alpine/Dockerfile`: 20.0-fpm-alpine <!--+tags-->
+-   `images/19.0/apache/Dockerfile`: 19.0-apache 19.0 <!--+tags-->
+-   `images/19.0/fpm/Dockerfile`: 19.0-fpm <!--+tags-->
+-   `images/19.0/fpm-alpine/Dockerfile`: 19.0-fpm-alpine <!--+tags-->
 
 ## How to run this image ?
 
