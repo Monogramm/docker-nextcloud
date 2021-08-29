@@ -28,6 +28,12 @@ A safe home for all your data. Access & share your files, calendars, contacts, m
 <https://hub.docker.com/r/monogramm/docker-nextcloud/>
 
 Tags:
+-   `images/22.1/apache/Dockerfile`: 22.1-apache 22.1-apache 22.1 22.1 <!--+tags-->
+-   `images/22.1/fpm/Dockerfile`: 22.1-fpm 22.1-fpm <!--+tags-->
+-   `images/22.1/fpm-alpine/Dockerfile`: 22.1-fpm-alpine 22.1-fpm-alpine <!--+tags-->
+-   `images/22.0/apache/Dockerfile`: 22.0-apache 22.0-apache 22.0 22.0 <!--+tags-->
+-   `images/22.0/fpm/Dockerfile`: 22.0-fpm 22.0-fpm <!--+tags-->
+-   `images/22.0/fpm-alpine/Dockerfile`: 22.0-fpm-alpine 22.0-fpm-alpine <!--+tags-->
 -   `images/21.0/apache/Dockerfile`: 21.0-apache apache 21.0 latest <!--+tags-->
 -   `images/21.0/fpm/Dockerfile`: 21.0-fpm fpm <!--+tags-->
 -   `images/21.0/fpm-alpine/Dockerfile`: 21.0-fpm-alpine fpm-alpine <!--+tags-->

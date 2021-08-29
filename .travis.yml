@@ -74,3 +74,9 @@ env: # Environments
     - VERSION=21.0 VARIANT=fpm-alpine
     - VERSION=21.0 VARIANT=fpm
     - VERSION=21.0 VARIANT=apache
+    - VERSION=22.0 VARIANT=fpm-alpine
+    - VERSION=22.0 VARIANT=fpm
+    - VERSION=22.0 VARIANT=apache
+    - VERSION=22.1 VARIANT=fpm-alpine
+    - VERSION=22.1 VARIANT=fpm
+    - VERSION=22.1 VARIANT=apache
