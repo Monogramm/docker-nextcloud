@@ -1,6 +1,5 @@
 [![License: AGPL v3][uri_license_image]][uri_license]
 [![Build Status](https://travis-ci.org/Monogramm/docker-nextcloud.svg)](https://travis-ci.org/Monogramm/docker-nextcloud)
-[![Docker Automated buid](https://img.shields.io/docker/build/monogramm/docker-nextcloud.svg)](https://hub.docker.com/r/monogramm/docker-nextcloud/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/monogramm/docker-nextcloud.svg)](https://hub.docker.com/r/monogramm/docker-nextcloud/)
 [![](https://images.microbadger.com/badges/version/monogramm/docker-nextcloud.svg)](https://microbadger.com/images/monogramm/docker-nextcloud)
 [![](https://images.microbadger.com/badges/image/monogramm/docker-nextcloud.svg)](https://microbadger.com/images/monogramm/docker-nextcloud)
