@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Execute CI build hooks
-        id: docker_hooks
+        id: docker_build
         run: |
           cd images/${{ matrix.version }}/${{ matrix.variant }}
           ./hooks/run build
@@ -32,7 +32,7 @@ jobs:
         run: docker images
 
       - name: Execute CI test hooks
-        id: docker_hooks
+        id: docker_test
         run: |
           cd images/${{ matrix.version }}/${{ matrix.variant }}
           ./hooks/run test
